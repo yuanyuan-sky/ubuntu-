@@ -1,0 +1,82 @@
+###数据处理
+==grep 命令==：筛选数据
+	
+	grep alias .bashrc             //在.bashrc文件中查找alias这个文本，而且显示所有包含alisa的行
+	如果搜索的文本中有空格，就需要用双引号将文本引起来
+==-i 参数==：忽略大小写
+默认grep命令是严格区分大小写的
+	
+	grep -i alias .bashrc 
+==-n 参数==：显示行号
+
+	grep -n alias .bashrc
+==-v 参数==：只显示文本不在的行
+
+	grep -v alias .bashrc
+==-r 参数==：在所有子目录和子文件中查找
+
+	grep -r "Hello World" floder/
+	在folder的所有子文件和子目录中查找 Hello World
+==rgrep 命令==：和regp -r 命令一样使用
+
+###grep 的高级用法：配合正则表达式
+==-E 参数==
+
+	grep -E 正则表达式 文件
+	grep -E ^abc file.txt          //在file.txt中查找以abc开头的`行`，该行必须是以abc开头的
+	在Ubuntu中，使用正则表达式是可以不适用-E的，但有的Unix系统需要加，为了兼容，加上-E参数比较好
+	
+==sort 命令==：为文件排序
+
+	sort name.txt    //将name.txt文件里的行，按首字母的英语字母顺序排序（不区分大小写），只显示排序结果，但不写入文件
+==-o 参数==：将排序后的内容写入文件（output）
+
+	sort -o new.txt name.txt           //将name.txt文件的行按照首字母的英文字母顺序排序，将排序后的内容写入到new.txt,name.txt的内容不变
+==-r 参数==：倒叙排列（reverse）
+
+	sort -r name.txt      //按首字母英语字母的顺序，倒序排列
+==-R 参数==：随机排序(random)
+	
+	sort -R name.txt
+==-n 参数==：对数字排序（number）
+默认的排序，会把数字当成字符串,加上-n，就会把各行的数字看成一个整体
+
+	sort -n number.txt
+###文件统计
+==wc 命令==（word count）
+
+	wc name.txt    //返回  9   9  50   文件名，分别对应 行数   单词书    字节数
+==-l 参数==：统计行数（line）
+
+	wc -l name.txt        //返回name.txt文件的行数
+==-w 参数==：统计单词数（word）
+	
+	wc -w name.txt
+==-c 参数==：统计字节数
+
+	wc -c name.txt
+==-m 参数==：统计字符数
+	
+	wc -m name.txt
+==uniq 命令==：删除文件中的重复内容
+uniq只能将连续的重复行，变为一行
+	
+	uniq repeat.txt   //将repeat.txt文件中的重复行，变为一行（只能是连续的重复行会被去重，不连续的不会去重）
+	只会显示去重的结果，原文件不会动
+	
+	uniq repeat.txt unique.txt        //将repeat.txt文件的去重结果，写入到unique.txt文件中，原文件不动
+==-c 参数==：统计重复的行数（count）
+
+	uniq -c repeat.txt     //显示repeat.txt文件内，每行的重复数
+==-d 参数==：只显示重复的行（duplicated 重复的）
+
+	uniq -d repeat.txt
+
+==cut 命令==：剪切文件的一部分，对文件的每一行进行剪切
+==-c 参数==：根据字符数来剪切
+	
+	cut -c 2-4 repeat.txt        //保留repeat.txt没行的第2到第4个字符，只显示截取后的内容，原文件内容不变
+	
+
+
+	

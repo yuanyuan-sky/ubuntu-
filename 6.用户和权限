@@ -1,0 +1,99 @@
+#用户和权限
+##Linux下的用户组织
+在Linux中，可以创建无数个用户。但是这些用户是被划分到不同的群组里。
+==sudo 命令==
+
+	sudo command
+	运行只有root才可以运行的命令，暂时切换到root身份
+	sudo su           //一直成为root
+	sudo su -              //不仅能切换为root，还可以直接定位到root的家目录
+	sudo -i             //不仅能切换为root，还可以直接定位到root的家目录
+	
+##添加用户
+
+	adduser  用户名        //添加用户
+	passwd 用户名                  //修改用户名的密码
+	deluser 用户名                 //删除用户，但是不会删除在/home目录中的用户家目录
+	deluser --remove-home 用户  //删除用户，并且连/home/用户这个目录也会删除   
+	--------------------------------------------------------------
+	adduser、deluser命令，只有Debian一组才有的命令，其他的limux发行版，一般是useradd、userdel,且必须设置密码才能登录
+
+##群组的管理
+创建用户的时候，如果不设置用户的群组，那么默认会创建一个和它的用户名一样的群组
+###创建群组
+
+	addgroup  群组名              //创建群组
+	
+###修改用户账户
+
+	usermod -l         //对用户重命名，但是/home目录中的用户家目录名不会改变，需要手动修改
+	usermod -g       //修改用户群组，此用户的家目录里的所有文件的所在群组会响应改变
+	usermod -g frienfs thomas    //将用户thomas放到friends这个群组里
+	groups 用户名                   //获取这个用户属于哪个群组
+	usermod -G 组1,组2,..., 用户名         //将一个用添加到多个群组
+	**注意： -g、-G**都是将用户先从原来的群组里剔除，再加入到新的群组里。
+	如果不想离开原来的群组，又想加入新群组里，使用-a参数
+	usermod -a -G 组名 用户名      //将用户thomas追加到组名里，可以追加多个组
+###	删除群组
+	
+	delgroup 组名       //删除群组
+	//如果一个群组里有用户，无法删除
+	//一个用户所在的主群组是无法删除的，后添加的群组可以删除
+	//addgroup、delgroup命令只是Debian一族才有的命令，其它的linux发行版一般是groupadd、groupdel
+##修改文件的所有者和群组
+只有root用户可以修改一个文件的所有者和群组
+==chown 命令==：change owner
+
+	chown thomas file.txt           //把file.txt的所有者改为thomas
+	chown thomas:friends file.txt    //把file.txt的所有者改为chomas，群组改为friends
+==chgrp 命令==：change group 
+
+	chgrp thomas file.txt       //把File.txt的群组改为thomas
+
+**-R**参数（recursive）
+
+	chgrp命令和chown命令，搭配-R参数，可以使得被修改的目录的所有子目录和子文件都被改变所有者或者群组
+	chgrp -R yuanyuan /home/thomas      //把thomas及其子文件和文件夹的群组改成yuanyuan
+###修改访问权限
+####文件访问权限符
+![](/media/yuanyuan/Elements/Ubuntu笔记/img/222.png) 
+
+	d:directory ，目录，说明则是一个目录
+	l:link表示链接，说明这是一个链接
+	r:read,说明可以读这个文件
+	w：write，说明这个文件可以修改
+	x：execute，说明可以运行这个文件
+	如果x权限在一个目录上，表示这个目录可以被打开
+	如果相应位置有字母，表示相应权限；如果相应位置是一个短横-，则表示没有相应权限
+![](/media/yuanyuan/Elements/Ubuntu笔记/img/333.png) 
+==chmod 命令==（change model）
+![](/media/yuanyuan/Elements/Ubuntu笔记/img/555.png) 
+
+	一：用数字来分配权限
+		chmod 600 file.txt
+		将file.txt的权限修改为 - rw- --- ---
+	二：用字母来分配权限
+		u:user,表示所有者
+		g:group,表示群组用户
+		o:other,表示其他用户
+		a:all,表示所有用户
+		+：表示添加权限
+		-：表示去除权限
+		=：表示分配权限
+		例：
+		chmod u+rx file.txt        给file的所有者添加读和运行的权限
+		chmod g+r file.txt       file的群组其它用户增加读的权限
+		chmod g+r o-r file.txt         file的群组其它用户添加读的权限，其它用户移除读的权限
+		chmod go-r file.txt     file的群组用户和其它用户移除读的权限
+		chmod u=rwx,g=r,o=- file.txt     file的所有者分配读、写和执行权限，群组的其它用户分配读的权限，不能写和执行；其它用户没有任何权限
+	
+	-R参数：递归的修改访问权限
+	chmod -R 700 /home/yuanyuan      //只允许yuanyaun这个文件夹的所有者能读、写和运行这个目录的所有文件	
+	
+
+
+	
+
+
+
+	
