@@ -42,6 +42,7 @@ ps 不带任何参数时，只会列出当前运行ps命令的用户在当前这
 ==ps -aux --sort -pcpu==:根据cpu使用率来降续排序
 ==ps aux --sort -pmem==:根据内存使用率来降续排序
 ==pstree==:以树形结构显示进程
+cnm
 
 
 	
